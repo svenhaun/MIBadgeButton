@@ -20,6 +20,7 @@
 @end
 
 @implementation MIBadgeButton
+@synthesize badgeTextFont = _badgeTextFont;
 
 +(id)buttonWithType:(UIButtonType)t {
     return [[MIBadgeButton alloc] init];
@@ -46,6 +47,19 @@
 -(void)setBadgeBackgroundColor:(UIColor *)color {
     self->_badgeBackgroundColor = color;
     [self setupBadgeStyle];
+}
+
+- (void)setBadgeTextFont:(UIFont *)badgeTextFont {
+    self->_badgeTextFont = badgeTextFont;
+    [self setupBadgeViewWithString:_badgeString];
+}
+
+- (UIFont *)badgeTextFont {
+    if (!_badgeTextFont) {
+        _badgeTextFont = [UIFont systemFontOfSize:13];
+    }
+    
+    return _badgeTextFont;
 }
 
 #pragma mark - Initializers
@@ -96,14 +110,14 @@
     [badgeLabel setClipsToBounds:YES];
     [badgeLabel setText:string];
     self.badgeTextColor = [UIColor whiteColor];
-    [badgeLabel setFont:[UIFont systemFontOfSize:13]];
+    [badgeLabel setFont:self.badgeTextFont];
     CGSize badgeSize = [badgeLabel sizeThatFits:CGSizeMake(320, FLT_MAX)];
-    badgeSize.width = badgeSize.width < 20 ? 25 : badgeSize.width + 5;
+    badgeSize.width = badgeSize.width < 20 ? 21 : badgeSize.width + 5;
 
     int vertical = self.badgeEdgeInsets.top - self.badgeEdgeInsets.bottom;
     int horizontal = self.badgeEdgeInsets.left - self.badgeEdgeInsets.right;
     
-    [badgeLabel setFrame:CGRectMake(self.bounds.size.width - 10 + horizontal, -(badgeSize.height / 2) - 10 + vertical, badgeSize.width,  badgeSize.width > 25 ? badgeSize.height : badgeSize.width)];
+    [badgeLabel setFrame:CGRectMake(self.bounds.size.width - 10 + horizontal, -(badgeSize.height / 2) - 10 + vertical, badgeSize.width,  badgeSize.width > 21 ? badgeSize.height : badgeSize.width)];
     [self setupBadgeStyle];
     [self addSubview:badgeLabel];
     
@@ -119,7 +133,7 @@
     [badgeLabel setTextAlignment:NSTextAlignmentCenter];
     [badgeLabel setBackgroundColor:self.badgeBackgroundColor];
     [badgeLabel setTextColor:self.badgeTextColor];
-    badgeLabel.layer.cornerRadius = badgeLabel.bounds.size.width > 25 ? 8 : badgeLabel.bounds.size.width / 2;
+    badgeLabel.layer.cornerRadius = badgeLabel.bounds.size.width > 21 ? 7.5 : badgeLabel.bounds.size.width / 2;
 }
 
 @end

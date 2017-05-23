@@ -16,4 +16,6 @@
 @property (nonatomic) UIEdgeInsets badgeEdgeInsets;
 @property (nonatomic) BOOL hideWhenZero;
 
+//
+@property (nonatomic, strong) UIFont* badgeTextFont;
 @end
